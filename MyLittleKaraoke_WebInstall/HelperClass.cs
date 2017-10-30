@@ -74,9 +74,11 @@ namespace MyLittleKaraoke_WebInstall
             }
             catch (WebException ex)
             {
-                var statusCode = ((HttpWebResponse)ex.Response)?.StatusCode;
-                if (statusCode == null)
-                    statusCode = (HttpStatusCode)(-1);
+                var response = (HttpWebResponse)ex.Response;
+                HttpStatusCode statusCode = (HttpStatusCode)(-1);
+                if (response != null)
+                    statusCode = response.StatusCode;
+
                 ShowErrorMessageDialog("Downloading the filelist from web failed!", "Webserver returned status code: " + statusCode, "GetWebPageContent(string PageURL)");
                 return "An error occurred, status code: " + statusCode;
             }
